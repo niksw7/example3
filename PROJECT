@@ -1,0 +1,10 @@
+domain: my.domain
+repo: example3
+resources:
+- group: webapp
+  kind: Guestbook
+  version: v1
+- group: webapp
+  kind: Deployment
+  version: v1
+version: "2"
