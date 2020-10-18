@@ -43,7 +43,7 @@ type DeploymentReconciler struct {
 // +kubebuilder:rbac:groups=webapp.my.domain,resources=deployments/status,verbs=get;update;patch
 
 func (r *DeploymentReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	
+
 	freezedNamspaces := []string{"example-system2"}
 	_ = context.Background()
 	_ = r.Log.WithValues("deployment", req.NamespacedName)
@@ -55,12 +55,12 @@ func (r *DeploymentReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) 
 	// }.Deployment
 	found := &webappv1.Deployment{}
 	err := r.Get(context.TODO(), types.NamespacedName{Name: req.Name, Namespace: req.Namespace}, found)
-	for _,frozenNamespace := freezedNamspaces{
+	for _, frozenNamespace := range freezedNamspaces {
 		if frozenNamespace == req.Namespace {
-			return reconcile.Result{},errors.New("This is a frozen namepace")
+			return reconcile.Result{}, errors.New("This is a frozen namepace")
 		}
 	}
-	
+
 	if err == nil {
 		log.Printf("Creating Deployment %s/%s\n", req.Namespace, req.Name)
 		log.Printf("This is th deployment %+v\n", found)
